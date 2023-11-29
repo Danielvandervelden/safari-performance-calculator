@@ -1,9 +1,7 @@
 import inquirer from "inquirer";
-import { PokemonChoice } from "./interfaces";
 
 // In seconds
 const CATCH_TIME_1_BALL = 25;
-const TIME_SAVE_PER_WEIGHT = 10;
 const ROCK = 5;
 
 const pokemon = {
