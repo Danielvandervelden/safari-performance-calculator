@@ -1,0 +1,24 @@
+{
+  "name": "safari-performance-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc",
+    "start": "nodemon dist/index.js -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.10.0",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "inquirer": "^9.2.12"
+  }
+}

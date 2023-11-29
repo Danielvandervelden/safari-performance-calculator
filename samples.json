@@ -1,0 +1,14 @@
+[
+  {
+    "entry": "01:26:41",
+    "pokemon": ["Nidoran (M)", "Venonat", "Exeggcute", "Rhyhorn"],
+    "exit": "01:30:07",
+    "chat_said": "10/10"
+  },
+  {
+    "entry": "01:24:25",
+    "pokemon": ["Nidoran (M)", "Paras", "Nidorino", "Nidoran (F)", "Venonat"],
+    "exit": "01:29:37",
+    "chat_said": "8.5/10"
+  }
+]
