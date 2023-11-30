@@ -96,7 +96,8 @@ inquirer
             },
         },
         {
-            message: "What pokemon were caught?",
+            message:
+                "What pokemon were caught? (Please mark Paras here if he had already caught it in Mt. Moon)",
             name: "caughtPokemon",
             type: "checkbox",
             choices: Object.values(pokemon).map((p) => p.name),
@@ -146,6 +147,17 @@ inquirer
             const scoreMessage = `gunShow Safari Zone Report gunShow || Caught Pokémon: ${caughtPokemon.length} (${pokemonList}) || Time spent: ${formattedTimeString} seconds || gunWow Final score... ${score}/10 gunWow`;
 
             console.log(scoreMessage);
+
+            // press any key to continue
+            inquirer
+                .prompt([
+                    {
+                        message: "Press any key to continue...",
+                        name: "continue",
+                        type: "input",
+                    },
+                ])
+                .then(() => {});
         }
     );
 
@@ -181,7 +193,21 @@ function calculateScore(
     console.log("Weight overflow score: ", weightOverflowScore);
     console.log("Safari time score: ", safariTimeScore);
 
-    return ((safariTimeScore + weightOverflowScore) / 2 / 10).toFixed(2);
+    let DIVIDE_BY = 2;
+
+    if(safariTimeScore < 50) {
+      DIVIDE_BY = 3
+    }
+
+    if(safariTimeScore < 30) {
+      DIVIDE_BY = 4
+    }
+
+    if(safariTimeScore < 10) {
+      DIVIDE_BY = 5
+    }
+
+    return ((safariTimeScore + weightOverflowScore) / DIVIDE_BY / 10).toFixed(2);
 }
 
 function getWeightOverflowScore(weightOverflow: number): number {
@@ -198,11 +224,20 @@ function getSafariTimeScore(
 ): number {
     const timeInSafariMinusCatching = timeSpentInSafariZone - timeSpentCatchingPokemon;
     const PERFECTION_TIME = 100;
-    const INTERVAL_FOR_POINT_LOSS = 13;
-    const POINT_LOSS_PER_INTERVAL = 5;
+    const INTERVAL_FOR_POINT_LOSS = 12;
+    let POINT_LOSS_PER_INTERVAL = 7;
     let pointDeduction = 0;
 
     console.log("Time in safari minus catching: ", timeInSafariMinusCatching);
+
+    // Adjusting the POINT_LOSS_PER_INTERVAL based on the time ranges
+    if (timeInSafariMinusCatching > 200 && timeInSafariMinusCatching <= 250) {
+        POINT_LOSS_PER_INTERVAL += 3;
+    } else if (timeInSafariMinusCatching > 250 && timeInSafariMinusCatching <= 300) {
+        POINT_LOSS_PER_INTERVAL += 6;
+    } else if (timeInSafariMinusCatching > 300) {
+        POINT_LOSS_PER_INTERVAL += 11;
+    }
 
     const differenceVsPerfection = timeInSafariMinusCatching - PERFECTION_TIME;
 
@@ -213,7 +248,7 @@ function getSafariTimeScore(
 
     console.log("Point deduction: ", pointDeduction);
 
-    return 100 - pointDeduction;
+    return Math.max(0, 100 - pointDeduction); // Ensure score does not go below 0
 }
 
 function formatTime(seconds: number): string {
